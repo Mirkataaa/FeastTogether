@@ -41,6 +41,7 @@ export const isGuest = (req, res, next) => {
     next();
 };
 
+// TODO: Remove if decide to go without roles - check User model.
 
 export const hasRole = (requiredRole) => (req, res, next) => {
     if (!req.user || req.user.role !== requiredRole) {
