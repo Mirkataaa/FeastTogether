@@ -8,7 +8,7 @@ const app = express();
 
 
 
-// app.use(corsMiddleware);
+app.use(corsMiddleware);
 mongooseInit();
 expressInit(app);
 
