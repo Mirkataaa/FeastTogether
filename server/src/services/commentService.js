@@ -66,7 +66,7 @@ const deleteComment = async (recipeId , commentId) => {
 
 export default {
     getCommentsByUser,
-    addComment,
+    addComment, 
     updateComment,
     deleteComment
 }
