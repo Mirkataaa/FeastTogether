@@ -11,17 +11,35 @@ const recipeSchema = new Schema({
         required: [true , 'Description is required']
     },
     ingredients: [{
-        type: String,
-        required: [true , 'Ingredients are required']
+        name: {
+            type: String,
+            required: [true , 'Ingredient name is required!']
+        },
+        amount: {
+            type: String,
+            required: [true , 'Amount must be text - e.g., "1 cup" , "2 tsp"']
+        },
+        baseAmount: {
+            type: Number,
+            required: [true , 'Please enter a number']
+        },
+        unit: {
+            type: String,
+            required: [true , 'Please enter a measurment unit - e.g., "ml" , "tsp"']
+        }
     }],
-    instructions: [{
+    instructions: {
         type: String,
         required: [true , 'Instructions are required']
-    }],
+    },
     category: {
         type: String,
         enum: ['Just Tasty' , 'Desserts' , 'Vegan Meals'],
         required: [true , 'Please select category']
+    },
+    cookingTime: {
+        type: Number,
+        required: [true , "Please enter cooking time"],
     },
     // * Photos with link - *Check how to upload photos*
     images: [{
