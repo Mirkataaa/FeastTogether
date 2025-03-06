@@ -15,11 +15,8 @@ const recipeSchema = new Schema({
             type: String,
             required: [true , 'Ingredient name is required!']
         },
+        // ! Only numeric amount , becouse of future problems with parsing servings **
         amount: {
-            type: String,
-            required: [true , 'Amount must be text - e.g., "1 cup" , "2 tsp"']
-        },
-        baseAmount: {
             type: Number,
             required: [true , 'Please enter a number']
         },
@@ -51,13 +48,17 @@ const recipeSchema = new Schema({
         required: true 
     },
     ratings: [{
-        user: Types.ObjectId,
-        score: Number
+        type: Types.ObjectId,
+        ref: 'Rating'
     }],
     averageRating: {
         type: Number,
         default: 0,
     },
+    comments: [{
+        type:Types.ObjectId,
+        ref: 'Comment'
+    }],
     createdAt: {
         type: Date,
         default: Date.now

@@ -13,7 +13,9 @@ const getRecipeById = async (id) => {
     try {
         const recipe = await Recipe.findById (id)
             .populate('category')
-            .populate('author');
+            .populate('author')
+            .populate('ratings')
+            .populate('comments');
 
         if(!recipe) {
             throw new Error('Recipe not found!');
