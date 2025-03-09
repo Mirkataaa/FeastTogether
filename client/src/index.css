@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+@theme {
+    --color-tea-green: #cde7b0;
+    --color-glaucous: #7286e2; 
+}
