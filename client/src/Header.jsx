@@ -1,13 +1,32 @@
+import { useState } from 'react';
+
+import { SideNav } from './SideNav';
+
 import {FaAlignJustify} from 'react-icons/fa'
 import {AiOutlineSearch} from 'react-icons/ai'
 
 export function Header () {
+
+    const [sideNav , setSideNav] = useState(false);
+
+    const sideNavToggleHandler = () => {
+      setSideNav((currentState) => !currentState)
+    }
+
+    const renderOverlay = () => {
+      return (
+        <div
+          className="bg-black/60 fixed w-full h-screen z-10 top-0 left-0"
+          onClick={sideNavToggleHandler}
+        ></div>
+      );
+    };
   
     return (
       <div className="bg-tea-green">
       <div className="max-w-[1720px] mx-auto flex justify-between items-center p-4">
       <div className="flex items-center">
-        <div className="cursor-pointer hover:scale-130 transition-transform duration-200 ease-in-out">
+        <div onClick={sideNavToggleHandler} className="cursor-pointer hover:scale-130 transition-transform duration-200 ease-in-out">
         <FaAlignJustify size={25} />
         </div>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
@@ -25,6 +44,8 @@ export function Header () {
         />
       </div>
       </div>
+      {sideNav && <SideNav toggleSideNav={sideNavToggleHandler}/> }
+      {sideNav && renderOverlay()}
       </div>
     ); 
 }
