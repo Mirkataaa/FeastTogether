@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { SideNav } from './SideNav';
+import { SideNav } from './side-nav/SideNav';
 
 import {FaAlignJustify} from 'react-icons/fa'
 import {AiOutlineSearch} from 'react-icons/ai'
