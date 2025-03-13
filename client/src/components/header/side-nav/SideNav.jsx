@@ -7,7 +7,7 @@ import { PiPlant } from 'react-icons/pi'
 import { LuNotebookTabs } from 'react-icons/lu'
 
 
-export function SideNav({ toggleSideNav }) {
+export default function SideNav({ toggleSideNav }) {
     return (
         <div
             className='fixed top-0 left-0 w-[300px] h-screen bg-tea-green z-20 duration-300'

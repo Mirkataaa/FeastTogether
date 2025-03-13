@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
-import { SideNav } from './side-nav/SideNav';
+
 
 import {FaAlignJustify} from 'react-icons/fa'
 import {AiOutlineSearch} from 'react-icons/ai'
+import SideNav from './side-nav/SideNav';
 
-export function Header () {
+export default function Header () {
 
     const [sideNav , setSideNav] = useState(false);
 
@@ -24,7 +25,7 @@ export function Header () {
   
     return (
       <div className="bg-tea-green">
-      <div className="max-w-[1720px] mx-auto flex justify-between items-center p-4">
+      <div className="w-full mx-auto flex justify-between items-center p-4">
       <div className="flex items-center">
         <div onClick={sideNavToggleHandler} className="cursor-pointer hover:scale-130 transition-transform duration-200 ease-in-out">
         <FaAlignJustify size={25} />
