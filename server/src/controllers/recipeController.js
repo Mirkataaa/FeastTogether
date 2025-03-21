@@ -19,7 +19,6 @@ recipeController.get('/:category' , async (req , res) => {
             .skip((page - 1) * limit)
             .limit(limit)
             .sort({ createdAt: -1 });
-        
         res.json({
             recipes,
             totalPages: Math.ceil(totalRecipes / limit),
@@ -30,8 +29,8 @@ recipeController.get('/:category' , async (req , res) => {
     }
 });
 
-// ! Fetch all products - Check if needed
-recipeController.get('/all' , async (req,res) => {
+
+recipeController.get('/' , async (req,res) => {
     try {
         const recipes = await recipeService.getAllRecipes();
         res.json(recipes);

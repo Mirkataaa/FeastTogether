@@ -1,4 +1,4 @@
-import { Schema, Types } from "mongoose";
+import { Schema, Types , model } from "mongoose";
 
 const ratingSchema = new Schema({
     user: {

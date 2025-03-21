@@ -1,5 +1,5 @@
-import Rating from "../models/Rating";
-import Recipe from "../models/Recipes";
+import Rating from "../models/Rating.js";
+import Recipe from "../models/Recipes.js";
 
 const addRating =  async (recipeId , userId , score) => {
     try {

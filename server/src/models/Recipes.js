@@ -39,13 +39,13 @@ const recipeSchema = new Schema({
         required: [true , "Please enter cooking time"],
     },
     // * Photos with link - *Check how to upload photos*
-    images: [{
+    imageUrl: {
         type: String
-    }],
+    },
     author: {
         type: Types.ObjectId,
         ref: 'User',
-        required: true 
+        // required: true 
     },
     ratings: [{
         type: Types.ObjectId,
