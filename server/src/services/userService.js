@@ -40,18 +40,7 @@ const userService = {
             throw new Error('Invalid user or password!');
         }
     
-        // ✅ Fix: Await the token generation
         const token = await this.generateToken(user);
-    
-        console.log(token);
-
-        console.log({
-            _id: user._id,
-            email: user.email,
-            username: user.username,
-            accessToken: token,  
-        });
-        
     
         return {
             _id: user._id,
@@ -68,8 +57,6 @@ const userService = {
         };
     
         const header = { expiresIn: '2h' };
-        
-        // ✅ Fix: Return the awaited token
         return jwt.sign(payload, process.env.JWT_SECRET, header);
     }
 };
