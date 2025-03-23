@@ -13,3 +13,15 @@ export const useLogin = () => {
         login,
     }
 };
+
+export const useRegister = () => {
+    const register = (username , email , password , rePass) => 
+        request.post(
+            `${baseUrl}/register`,
+            {username , email , password , rePass}
+        );
+
+    return {
+        register,
+    }
+}
