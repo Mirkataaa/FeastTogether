@@ -30,11 +30,7 @@ userController.post("/register", isGuest, async (req, res) => {
   
       res.status(201).json({
         message: "Registration successful",
-        user: {
-          id: user._id,
-          username: user.username,
-          email: user.email,
-        },
+        user: user
       });
     } catch (err) {
       const errors = getErrorMsg(err);
