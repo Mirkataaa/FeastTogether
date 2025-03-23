@@ -3,10 +3,13 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 
 const userService = {
-    async register(username , email , password , rePassword) {
+    async register(username , email , password , rePass) {
         const user = await User.findOne().or([{email} , {username}]);
 
-        if(password !== rePassword) {
+        console.log(rePass);
+        
+
+        if(password !== rePass) {
             throw new Error('Passwords missmatch!');
         }
 
@@ -18,7 +21,6 @@ const userService = {
             username,
             email,
             password,
-            role: 'user' // TODO: Remove also if no roles.
         });
 
         return this.generateToken(newUser)
@@ -26,31 +28,49 @@ const userService = {
     },
     async login(email , password) {
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
-        if(!user) {
+        if (!user) {
             throw new Error('Invalid user or password!');
-        };
-
+        }
+    
         const isValid = await bcrypt.compare(password , user.password);
-
-        if(!isValid) {
+    
+        if (!isValid) {
             throw new Error('Invalid user or password!');
-        };
+        }
+    
+        // ✅ Fix: Await the token generation
+        const token = await this.generateToken(user);
+    
+        console.log(token);
 
-        return this.generateToken(user)
+        console.log({
+            _id: user._id,
+            email: user.email,
+            username: user.username,
+            accessToken: token,  
+        });
+        
+    
+        return {
+            _id: user._id,
+            email: user.email,
+            username: user.username,
+            accessToken: token,  
+        };
     },
     async generateToken(user) {
         const payload = {
             _id: user._id,
             email: user.email,
             username: user.username,
-            role: user.role
         };
-
-        const header = {expiresIn: '2h'};
-        const token = await jwt.sign(payload, process.env.JWT_SECRET, header);
-        return token;
+    
+        const header = { expiresIn: '2h' };
+        
+        // ✅ Fix: Return the awaited token
+        return jwt.sign(payload, process.env.JWT_SECRET, header);
     }
 };
 

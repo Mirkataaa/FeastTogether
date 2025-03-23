@@ -11,14 +11,14 @@ const userController = Router();
 // * Registration
 
 userController.post("/register", isGuest, async (req, res) => {
-    const { username, email, password, rePassword } = req.body;
-  
+    const { username, email, password, rePass } = req.body;
+    
     try {
       const token = await userService.register(
         username,
         email,
         password,
-        rePassword
+        rePass
       );
       const user = await User.findOne({ email });
       res.cookie(AUTH_COOKIE_NAME, token, {
@@ -34,7 +34,6 @@ userController.post("/register", isGuest, async (req, res) => {
           id: user._id,
           username: user.username,
           email: user.email,
-          role: user.role,
         },
       });
     } catch (err) {
@@ -49,9 +48,8 @@ userController.post("/register", isGuest, async (req, res) => {
 userController.post("/login", isGuest, async (req, res) => {
     const { email, password } = req.body;
     try {
-      const token = await userService.login(email, password);
-      const user = await User.findOne({ email });
-      res.cookie(AUTH_COOKIE_NAME, token, {
+      const user = await userService.login(email, password);
+      res.cookie(AUTH_COOKIE_NAME, user, {
         httpOnly: true,
         secure: true,
         sameSite: "Lax",
@@ -59,12 +57,7 @@ userController.post("/login", isGuest, async (req, res) => {
       });
       res.status(200).json({
         message: "Login successful",
-        user: {
-          id: user._id,
-          username: user.username,
-          email: user.email,
-          role: user.role,
-        },
+        user: user
       });
     } catch (err) {
       const errors = getErrorMsg(err);
@@ -81,15 +74,12 @@ userController.post("/login", isGuest, async (req, res) => {
   });
 
 // * Get profile
-
-// * Get profile
 userController.get("/profile", isAuth, (req, res) => {
     const user = req.user;
     res.status(200).json({
       id: user._id,
       username: user.username,
       email: user.email,
-      role: user.role,
     });
   });
 

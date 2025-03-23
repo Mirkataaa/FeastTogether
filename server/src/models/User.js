@@ -20,11 +20,6 @@ const userSchema = new Schema({
         required:[true, 'Password is required!'],
         minLength: [4, 'Password is too short!']
     },
-    // ! Check if role is really needed 
-    role: {
-        type: String,
-        default: 'user',
-    },
     // TODO: Add profile picture eventually
     // profilePicture: {
     //     type: String,
