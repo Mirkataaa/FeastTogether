@@ -1,0 +1,15 @@
+import request from "../utils/request";
+
+
+const baseUrl = 'http://localhost:3050/api/user';
+
+export const useLogin = () => {
+    const login = async (email, password) =>
+        request.post(
+            `${baseUrl}/login`,
+            { email, password },
+        );
+    return {
+        login,
+    }
+};
