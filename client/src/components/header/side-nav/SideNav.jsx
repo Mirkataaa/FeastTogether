@@ -25,10 +25,11 @@ export default function SideNav({ toggleSideNav }) {
             <nav>
                 <ul className="flex flex-col p-4 text-gray-900">
                     <Link 
+                    to={'/recipes/all-recipes'}
                     onClick={toggleSideNav}
                     className="text-xl py-4 flex hover:scale-130 hover:translate-x-[40px] transition-all duration-200 ease-in-out hover:cursor-pointer">
                         <BsPerson size={30} className="mr-4 text-white bg-icons rounded-full" />
-                        My Account
+                        Browse 
                     </Link>
                     <Link 
                     onClick={toggleSideNav}
@@ -55,7 +56,7 @@ export default function SideNav({ toggleSideNav }) {
                         About
                     </Link>
                     <Link
-                        to={'/recipe/create'}
+                        to={'/recipes/create'}
                         onClick={toggleSideNav}
                         className="text-xl py-4 flex hover:scale-130 hover:translate-x-[40px] transition-all duration-200 ease-in-out hover:cursor-pointer">
                         <LuNotebookTabs size={30} className="mr-4 text-white bg-icons rounded-full" />

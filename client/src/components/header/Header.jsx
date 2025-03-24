@@ -25,7 +25,7 @@ export default function Header() {
   };
 
   return (
-    <div className="bg-tea-green">
+    <div className="bg-tea-green sticky top-0 z-50 shadow-md ">
       <div className="w-full mx-auto flex justify-between items-center p-4">
         <div className="flex items-center">
           <div onClick={sideNavToggleHandler} className="cursor-pointer hover:scale-130 transition-transform duration-200 ease-in-out">
