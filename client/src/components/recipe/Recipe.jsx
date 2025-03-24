@@ -8,7 +8,7 @@ import RecipeCard from "./recipe-card/RecipeCard";
     
 
     return (
-      <section className="max-w-6xl mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px] ">
+      <section className="max-w-6xl mx-auto columns-2 md:columns-3 lg:columns-4 xl:columns-4 gap-4 m-5 ">
         {recipes.length > 0
         ? recipes.map((recipe , index) => <RecipeCard key={recipe._id} {...recipe} index={index} />)
         : <h3>No Recipes</h3>
