@@ -1,34 +1,37 @@
-const request = async (method , url , data , options = {}) => {
-    if(method !== 'GET') {
-        options.method = method;
-    }
+const request = async (method, url, data, options = {}) => {
+  if (method !== "GET") {
+    options.method = method;
+  }
 
-    if(data) {
-        options = {
-            ...options,
-            headers: {
-                'Content-Type' : 'application/json',
-                ...options.headers,
-            },
-            body: JSON.stringify(data),
-        }
-    }
+  if (data) {
+    
+    options = {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+      body: JSON.stringify(data),
+    };
+  }
 
-    const response = await fetch(url , options);
-    const resContentType = response.headers.get('Content-Type');
+  const response = await fetch(url, options);
+  const responseContentType = response.headers.get("Content-Type");
+  
+  if (!responseContentType) {
+    return;
+  }
 
-    if(!resContentType) {
-        return;
-    }
+  const result = await response.json();
 
-    const result = await response.json();
-
-    return result;
+  console.log(`Here is the result from request ${result}`);  
+  return result;
 };
 
 export default {
-    get: request.bind(null , 'GET'),
-    post: request.bind(null , 'POST'),
-    put: request.bind(null, 'PUT'),
-    delete: request.bind(null,'DELETE'),
-}
+  get: request.bind(null, "GET"),
+  post: request.bind(null, "POST"),
+  put: request.bind(null, "PUT"),
+  delete: request.bind(null, "DELETE"),
+  baseRequest: request,
+};
