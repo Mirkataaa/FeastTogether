@@ -16,6 +16,19 @@ export const useRecipes = () => {
     return {recipes};
 };
 
+export const useRecipe = (recipeId) => {
+    const [recipe , setRecipe] = useState({});
+
+    useEffect(() => {
+        request.get(`${baseUrl}/${recipeId}`)
+            .then(setRecipe);
+    } , [recipeId]);
+
+    return {
+        recipe,
+    }
+}
+
 export const useCreateRecipe = () => {
 
     const {request: requester} = useAuth();
