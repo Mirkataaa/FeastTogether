@@ -1,11 +1,13 @@
 import { useParams } from "react-router";
 import { useRecipe } from "../../api/recipeApi";
 import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
 
 export default function RecipeDetails() {
     const { recipeId } = useParams();
     const { recipe } = useRecipe(recipeId);
     const [servings, setServings] = useState(recipe?.servings || 1);
+    const {userId} = useAuth();
 
     function adjustIngredients(ingredient, servings, baseServings = 1) {
         if (!ingredient.amount || baseServings === 0) {
@@ -14,6 +16,7 @@ export default function RecipeDetails() {
         return `${(ingredient.amount * servings) / baseServings} ${ingredient.unit} ${ingredient.name}`;
     }
 
+    const isOwner = userId === recipe.author?._id
 
     
     return (
@@ -23,7 +26,12 @@ export default function RecipeDetails() {
             <p className="text-gray-700 text-center mt-2 italic">{recipe.description}</p>
             <p className="text-sm text-gray-500 text-center">Category: {recipe.category} | Cooking Time: {recipe.cookingTime} mins</p>
             
-     
+            {isOwner && (
+                <div className="flex justify-end mt-2 gap-2">
+                    <button className="px-3 py-1 bg-yellow-500 text-white rounded">Edit</button>
+                    <button  className="px-3 py-1 bg-red-500 text-white rounded">Delete</button>
+                </div>
+            )}
 
             <div className="mt-6 notebook p-6 border-l-4 border-r-4 border-brown-600 bg-amber-100 shadow-md rounded-md relative">
                 <h2 className="text-2xl font-semibold">Ingredients</h2>
