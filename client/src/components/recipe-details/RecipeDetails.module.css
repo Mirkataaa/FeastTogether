@@ -1,0 +1,45 @@
+.notebook {
+    background: #fffaf0; /* Light paper-like color */
+    padding: 20px;
+    border-left: 5px solid #a67c52; /* Brownish notebook binding */
+    border-right: 5px solid #a67c52;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-family: "Patrick Hand", cursive; /* Handwritten font */
+}
+
+.notebook::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 10px;
+    background: repeating-linear-gradient(
+        to right,
+        transparent,
+        transparent 10px,
+        #ddd 10px,
+        #ddd 20px
+    );
+}
+
+.notebook li {
+    list-style: none;
+    border-bottom: 1px dashed #a67c52; /* Dashed separator like a notebook */
+    padding: 5px 0;
+}
+
+/* Optional: Torn edge effect */
+.notebook::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to right, transparent, #fffaf0 50%, transparent);
+    clip-path: polygon(0% 100%, 10% 80%, 20% 100%, 30% 80%, 40% 100%, 50% 80%, 60% 100%, 70% 80%, 80% 100%, 90% 80%, 100% 100%);
+}
+
