@@ -1,12 +1,13 @@
 import { Link } from "react-router"; 
 
 export default function RecipeCard ({
+  _id,
   title,
   imageUrl,
   category
 }) {
     return (
-      <Link to={"/"}>
+      <Link to={`/recipes/${_id}`}>
       <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transform transition duration-300 hover:scale-105 group cursor-pointer mb-5">
         <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
         <div className="p-4">
