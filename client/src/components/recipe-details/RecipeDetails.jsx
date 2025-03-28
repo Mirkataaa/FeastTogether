@@ -1,5 +1,5 @@
-import { useParams } from "react-router";
-import { useRecipe } from "../../api/recipeApi";
+import { Link, useParams } from "react-router";
+import { useDeleteRecipe, useRecipe } from "../../api/recipeApi";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 
@@ -8,6 +8,7 @@ export default function RecipeDetails() {
     const { recipe } = useRecipe(recipeId);
     const [servings, setServings] = useState(recipe?.servings || 1);
     const {userId} = useAuth();
+    const {deleteRecipe} = useDeleteRecipe();
 
     function adjustIngredients(ingredient, servings, baseServings = 1) {
         if (!ingredient.amount || baseServings === 0) {
@@ -17,6 +18,10 @@ export default function RecipeDetails() {
     }
 
     const isOwner = userId === recipe.author?._id
+
+    const recipeDeleteHandler = async () => {
+        await deleteRecipe(recipeId)
+    }
 
     
     return (
@@ -28,8 +33,8 @@ export default function RecipeDetails() {
             
             {isOwner && (
                 <div className="flex justify-end mt-2 gap-2">
-                    <button className="px-3 py-1 bg-yellow-500 text-white rounded">Edit</button>
-                    <button  className="px-3 py-1 bg-red-500 text-white rounded">Delete</button>
+                    <Link to={`/recipes/edit/${recipeId}`} className="px-3 py-1 bg-yellow-500 text-white rounded">Edit</Link>
+                    <button onClick={recipeDeleteHandler} className="px-3 py-1 bg-red-500 text-white rounded">Delete</button>
                 </div>
             )}
 
