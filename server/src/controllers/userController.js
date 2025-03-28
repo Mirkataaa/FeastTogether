@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { isGuest , isAuth } from "../middlewares/authMiddleware.js";
 import userService from "../services/userService.js";
-import User from "../models/User.js";
-import { AUTH_COOKIE_NAME } from "../constants.js";
 import {getErrorMsg} from "../utils/errorUtil.js"
 
 
@@ -11,33 +9,21 @@ const userController = Router();
 // * Registration
 
 userController.post("/register", isGuest, async (req, res) => {
-    const { username, email, password, rePass } = req.body;
-    
-    try {
-      const token = await userService.register(
-        username,
-        email,
-        password,
-        rePass
-      );
-      const user = await User.findOne({ email });
-      res.cookie(AUTH_COOKIE_NAME, token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 3600000,
-        sameSite: "lax",
-      });
+  const { username, email, password, rePass } = req.body;
   
+  try {
+      const userData = await userService.register(username, email, password, rePass);
+
       res.status(201).json({
-        message: "Registration successful",
-        user: user
+          message: "Registration successful",
+          user: userData,
       });
-    } catch (err) {
+
+  } catch (err) {
       const errors = getErrorMsg(err);
-  
       res.status(400).json({ message: "Registration failed", errors });
-    }
-  });
+  }
+});
 
 // * Login
 
@@ -45,12 +31,6 @@ userController.post("/login", isGuest, async (req, res) => {
     const { email, password } = req.body;
     try {
       const user = await userService.login(email, password);
-      res.cookie(AUTH_COOKIE_NAME, user, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "Lax",
-        maxAge: 3600000,
-      });
       res.status(200).json({
         message: "Login successful",
         user: user
@@ -64,8 +44,6 @@ userController.post("/login", isGuest, async (req, res) => {
 // * Logout
 
   userController.get("/logout", isAuth, (req, res) => {
-    res.clearCookie(AUTH_COOKIE_NAME);
-  
     res.status(200).json({ message: "Logout successful" });
   });
 

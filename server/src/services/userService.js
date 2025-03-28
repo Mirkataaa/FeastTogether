@@ -23,7 +23,14 @@ const userService = {
             password,
         });
 
-        return this.generateToken(newUser)
+    const token = await this.generateToken(newUser);
+
+    return {
+        _id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        accessToken: token 
+    };
 
     },
     async login(email , password) {
