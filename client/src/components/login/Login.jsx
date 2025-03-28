@@ -1,9 +1,10 @@
 import { useActionState} from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext";
 import { useLogin } from "../../api/authApi";
 
 export default function Login() {
+  const navigate = useNavigate();
   const {userLoginHandler} = useUserContext();
   const {login} = useLogin();
 
@@ -11,6 +12,7 @@ export default function Login() {
     const values = Object.fromEntries(formData);
     const authData = await login(values.email , values.password);
     userLoginHandler(authData.user);
+    navigate('/recipes/all-recipes')
   };
 
   const [_  , loginAction , isPending] = useActionState(

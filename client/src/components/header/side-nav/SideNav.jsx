@@ -32,18 +32,21 @@ export default function SideNav({ toggleSideNav }) {
                         Browse 
                     </Link>
                     <Link 
+                    to="/recipes/category/Just Tasty"
                     onClick={toggleSideNav}
                     className="text-xl py-4 flex hover:scale-130 hover:translate-x-[40px] transition-all duration-200 ease-in-out hover:cursor-pointer">
                         <FaKitchenSet size={30} className="mr-4 text-white bg-icons rounded-full" />
-                        Just tasly
+                        Just Tasty
                     </Link>
                     <Link 
+                    to="/recipes/category/Vegan Meals"
                     onClick={toggleSideNav}
                     className="text-xl py-4 flex hover:scale-130 hover:translate-x-[40px] transition-all duration-200 ease-in-out hover:cursor-pointer">
                         <PiPlant size={30} className="mr-4 text-white bg-icons rounded-full" />
                         Vegan Meals
                     </Link>
                     <Link
+                        to="/recipes/category/Desserts"
                         onClick={toggleSideNav}
                         className="text-xl py-4 flex hover:scale-130 hover:translate-x-[40px] transition-all duration-200 ease-in-out hover:cursor-pointer">
                         <GiCupcake size={30} className="mr-4 text-white bg-icons rounded-full" />

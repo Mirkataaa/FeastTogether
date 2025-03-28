@@ -1,15 +1,17 @@
 import { useState } from 'react';
-
-
-
+import { Link } from 'react-router';
 import { FaAlignJustify } from 'react-icons/fa'
 import { AiOutlineSearch } from 'react-icons/ai'
+
 import SideNav from './side-nav/SideNav';
-import { Link } from 'react-router';
+import useAuth from '../../hooks/useAuth';
+
+
 
 export default function Header() {
 
   const [sideNav, setSideNav] = useState(false);
+  const { email , isAuthenticated} = useAuth();
 
   const sideNavToggleHandler = () => {
     setSideNav((currentState) => !currentState)
@@ -45,9 +47,22 @@ export default function Header() {
             placeholder="search meals"
           />
         </div>
-        <Link to="/register" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded-full">
-          SignUp
-        </Link>
+        {isAuthenticated
+          ? (
+            <div>
+            {email}
+            <Link to="/logout" className="bg-blue-500 hover:bg-blue-700 ml-2 text-white font-bold p-2 rounded-full">
+              Logout
+            </Link>
+            </div>
+          )
+          : (
+            <Link to="/register" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded-full">
+              SignUp
+            </Link>
+            )
+        }
+        
       </div>
       {sideNav && <SideNav toggleSideNav={sideNavToggleHandler} />}
       {sideNav && renderOverlay()}

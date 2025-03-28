@@ -1,9 +1,10 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext";
 import { useRegister } from "../../api/authApi";
 
 export default function Register() {
 
+    const navigate = useNavigate();
     const {register} = useRegister();
     const {userLoginHandler} = useUserContext();
 
@@ -19,8 +20,8 @@ export default function Register() {
         }
 
         const authData = await register(username , email , password , rePass);
-        
-        userLoginHandler(authData);
+        userLoginHandler(authData.user);
+        navigate('/recipes/all-recipes');
 
     }
 
