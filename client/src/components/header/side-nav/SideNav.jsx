@@ -6,9 +6,12 @@ import { GiCupcake } from 'react-icons/gi'
 import { PiPlant } from 'react-icons/pi'
 import { LuNotebookTabs } from 'react-icons/lu'
 import { Link } from 'react-router';
+import useAuth from '../../../hooks/useAuth';
 
 
 export default function SideNav({ toggleSideNav }) {
+
+    const {isAuthenticated} = useAuth();
     return (
         <div
             className='fixed top-0 left-0 w-[300px] h-screen bg-tea-green z-20 duration-300'
@@ -58,13 +61,18 @@ export default function SideNav({ toggleSideNav }) {
                         <MdHelp size={30} className="mr-4 text-white bg-icons rounded-full" />
                         About
                     </Link>
-                    <Link
-                        to={'/recipes/create'}
-                        onClick={toggleSideNav}
-                        className="text-xl py-4 flex hover:scale-130 hover:translate-x-[40px] transition-all duration-200 ease-in-out hover:cursor-pointer">
-                        <LuNotebookTabs size={30} className="mr-4 text-white bg-icons rounded-full" />
-                        Create your recipe
-                    </Link>
+                    {isAuthenticated
+                        ? (
+                            <Link
+                            to={'/recipes/create'}
+                            onClick={toggleSideNav}
+                            className="text-xl py-4 flex hover:scale-130 hover:translate-x-[40px] transition-all duration-200 ease-in-out hover:cursor-pointer">
+                            <LuNotebookTabs size={30} className="mr-4 text-white bg-icons rounded-full" />
+                            Create your recipe
+                            </Link>
+                        )
+                        : null
+                    }
                 </ul>
             </nav>
         </div>
