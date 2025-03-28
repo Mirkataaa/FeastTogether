@@ -40,3 +40,16 @@ export const useCreateRecipe = () => {
         create,
     }
 }
+
+export const useDeleteRecipe = () => {
+    const {request} = useAuth();
+
+    const deleteRecipe = (recipeId) =>
+        request.delete(`${baseUrl}/${recipeId}`)
+            .then(console.log(recipeId)
+            )
+        
+    return {
+        deleteRecipe,
+    }
+}
