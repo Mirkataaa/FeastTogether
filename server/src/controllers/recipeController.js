@@ -5,7 +5,7 @@ import Recipe from '../models/Recipes.js';
 const recipeController = Router();
 
 // * Pagination + infinite scroll + category
-recipeController.get('/:category' , async (req , res) => {
+recipeController.get('/category/:category' , async (req , res) => {
     try {
         const {category} = req.params;
         let {page = 1 , limit = 10} = req.query;
@@ -40,11 +40,11 @@ recipeController.get('/' , async (req,res) => {
 });
 
 // * Recipe by ID
-recipeController.get('/:category/:id' , async (req,res) => {
+recipeController.get('/:id' , async (req,res) => {
     const {id} = req.params;
 
     try {
-        const recipe = recipeService.getAllRecipes(id);
+        const recipe = await recipeService.getRecipeById(id);        
         res.status(200).json(recipe)  
     } catch (error) {
         res.status(404).json({error: error.message});
@@ -52,17 +52,17 @@ recipeController.get('/:category/:id' , async (req,res) => {
 });
 
 // * Create recipe
-recipeController.post('/' , async (req,res) => {
+recipeController.post('/create' , async (req,res) => {
     try {
         const newRecipe = await recipeService.createRecipe(req.body);
         res.status(200).json(newRecipe)
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).json({error: error.message});        
     }
 });
 
 // * Update recipe
-recipeController.put('/:id' , async (req,res) => {
+recipeController.put('/edit/:id' , async (req,res) => {
     const {id} = req.params;
     const recipeData = req.body;
 
