@@ -15,7 +15,6 @@ const recipeSchema = new Schema({
             type: String,
             required: [true , 'Ingredient name is required!']
         },
-        // ! Only numeric amount , becouse of future problems with parsing servings **
         amount: {
             type: Number,
             required: [true , 'Please enter a number']
@@ -45,7 +44,7 @@ const recipeSchema = new Schema({
     author: {
         type: Types.ObjectId,
         ref: 'User',
-        // required: true 
+        required: true 
     },
     ratings: [{
         type: Types.ObjectId,

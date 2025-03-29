@@ -10,16 +10,24 @@ const getAllRecipes = async () => {
 };
 
 const getRecipeById = async (id) => {
-    try {
-        const recipe = await Recipe.findById (id)
-            .populate('category')
-            .populate('author')
-            .populate('ratings')
-            .populate('comments');
 
-        if(!recipe) {
-            throw new Error('Recipe not found!');
-        }
+    const recipe = await Recipe.findById (id)
+    .populate('category')
+    .populate('author')
+    .populate('ratings')
+    .populate('comments')
+    .lean();
+
+    if(!recipe) {
+        throw new Error('Recipe not found!');
+    }
+
+    try {
+        console.log(recipe);
+        // ! Cut the _id from ingredients .. //TODO check why is happening .. Problem with mongoose ?
+        recipe.ingredients = recipe.ingredients.map(({ _id, ...rest }) => rest);
+
+        return recipe; 
     } catch (error) {
         throw new Error('Error fetching product: ' + error.message);
     }
