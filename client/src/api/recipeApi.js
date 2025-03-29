@@ -60,11 +60,11 @@ export const useCreateRecipe = () => {
 export const useEditRecipe = () => {
     const {request} = useAuth();
     
-    
     const edit = useCallback((recipeId , recipeData) => 
         request.put(`${baseUrl}/edit/${recipeId}` , {_id: recipeId , ...recipeData}
-        ),[request])
-        
+        ) , [request]);
+    
+
     return {
         edit,
     }
