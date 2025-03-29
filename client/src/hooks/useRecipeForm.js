@@ -28,6 +28,7 @@ export default function useRecipeForm(callbackHandler , initialValues) {
 
     return {
         values,
+        setValues,
         changeHandler,
         submitHandler,
         arrayChangeHandler,

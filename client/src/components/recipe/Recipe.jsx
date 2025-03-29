@@ -4,7 +4,6 @@ import RecipeCard from "./recipe-card/RecipeCard";
   export function Recipe() {
     const {recipes} = useRecipes();
 
-    console.log(recipes);
     
 
     return (
