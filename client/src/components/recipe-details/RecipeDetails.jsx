@@ -2,6 +2,8 @@ import { Link, useParams } from "react-router";
 import { useDeleteRecipe, useRecipe } from "../../api/recipeApi";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import CommentsView from "../comments-view/CommentsView";
+import AddComment from "../add-comment/AddComment";
 
 export default function RecipeDetails() {
     const { recipeId } = useParams();
@@ -63,6 +65,8 @@ export default function RecipeDetails() {
                 <p className="text-gray-700 mt-2">{recipe.instructions}</p>
             </div>
 
+        <CommentsView></CommentsView>
+        <AddComment></AddComment>
            
         </div>
     );
