@@ -39,6 +39,17 @@ recipeController.get('/' , async (req,res) => {
     }
 });
 
+// * Latest recipes (4);
+recipeController.get('/latest' , async (req,res) => {
+    try {
+        const recipes = await recipeService.getLatestRecipes();
+        console.log(recipes);
+        res.json(recipes)
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+});
+
 // * Recipe by ID
 recipeController.get('/:id' , async (req,res) => {
     const {id} = req.params;

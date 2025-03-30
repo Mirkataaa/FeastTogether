@@ -68,11 +68,21 @@ const deleteRecipe = async (id) => {
     }
 }
 
+const getLatestRecipes = async () => {
+    try {
+        const recipes = await Recipe.find().sort({_id: -1}).limit(4);
+        return recipes;
+    } catch (error) {
+        throw new Error('Error fetching latest recipes' + error.message);
+    }
+}
+
 export default {
     getAllRecipes,
     getRecipeById,
     createRecipe,
     updateRecipe,
-    deleteRecipe
+    deleteRecipe,
+    getLatestRecipes
 }
 
