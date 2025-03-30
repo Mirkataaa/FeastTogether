@@ -6,9 +6,14 @@ const commentSchema = new Schema({
         ref: 'User',
         required: true
     },
+    recipe: {
+        type: Types.ObjectId,
+        ref: 'Recipe',
+        required: true
+    },
     text: {
         type: String,
-        required: [true , 'Please leave a comment']
+        required: [true, 'Please leave a comment']
     },
     createdAt: {
         type: Date,

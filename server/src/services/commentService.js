@@ -10,38 +10,33 @@ const getCommentsByUser  = async (userId) => {
     }
 }
 
-const addComment = async (recipeId , commentData) => {
+const getComments = async (recipeId) => {
     try {
-        const comment = new Comment(commentData);
-        await comment.save();
-
-        const recipe = await Recipe.findByIdAndUpdate(
-            recipeId,
-            {$push: {comment: comment._id}},
-            {new: true}
-        ).populate('comments');
-
-        return recipe;
+        const comments = await Comment.find({ recipe: recipeId })
+            .populate('user', 'username')
+            .sort({ createdAt: -1 });
+        console.log(comments);
+        
+        return comments;
     } catch (error) {
-        throw new Error('Error adding comment' + error.message);
+        throw new Error('Error fetching comments: ' + error.message);
     }
 };
 
-const updateComment = async (commentId , newText) => {
+const addComment = async (recipeId, commentData) => {
     try {
-        const comment = await Comment.findById(commentId);
-        
-        if(!comment) {
-            throw new Error('Comment not found!');
-        }
+        const comment = new Comment({ 
+            ...commentData, // `{ user: userId, text: comment }`
+            recipe: recipeId 
+        });
 
-        comment.text = newText;
         await comment.save();
         return comment;
     } catch (error) {
-        throw new Error('Error adding comment' + error.message);
+        console.error("Error adding comment:", error.message);
+        throw new Error('Error adding comment: ' + error.message);
     }
-}
+};
 
 const deleteComment = async (recipeId , commentId) => {
     try {
@@ -67,6 +62,6 @@ const deleteComment = async (recipeId , commentId) => {
 export default {
     getCommentsByUser,
     addComment, 
-    updateComment,
-    deleteComment
+    deleteComment,
+    getComments
 }

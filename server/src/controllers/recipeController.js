@@ -43,7 +43,6 @@ recipeController.get('/' , async (req,res) => {
 recipeController.get('/latest' , async (req,res) => {
     try {
         const recipes = await recipeService.getLatestRecipes();
-        console.log(recipes);
         res.json(recipes)
     } catch (error) {
         res.status(500).json({error: error.message});

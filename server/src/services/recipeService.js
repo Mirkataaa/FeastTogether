@@ -23,7 +23,6 @@ const getRecipeById = async (id) => {
     }
 
     try {
-        console.log(recipe);
         // ! Cut the _id from ingredients .. //TODO check why is happening .. Problem with mongoose ?
         recipe.ingredients = recipe.ingredients.map(({ _id, ...rest }) => rest);
 
