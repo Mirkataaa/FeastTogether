@@ -1,14 +1,16 @@
-export default function AddComment () {
+export default function AddComment ({
+    onCreate,
+}) {
 
-    const onCreate = (comment) => {
-        console.log(comment);
-        
+    const commentAction = async (formData) => {
+        const comment = formData.get('comment');
+        onCreate(comment)
     }
 
     return (
         <article className="create-comment p-6 bg-white shadow-lg rounded-lg max-w-lg mx-auto">
     <label className="text-xl font-semibold text-gray-800 mb-4 block">Add new comment:</label>
-    <form className="form space-y-4" action={onCreate}>
+    <form className="form space-y-4" action={commentAction}>
         <textarea 
             name="comment" 
             placeholder="Write your comment here..." 

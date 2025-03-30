@@ -4,6 +4,7 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import CommentsView from "../comments-view/CommentsView";
 import AddComment from "../add-comment/AddComment";
+import { useComments, useCreateComments } from "../../api/commentApi";
 
 export default function RecipeDetails() {
     const { recipeId } = useParams();
@@ -11,6 +12,8 @@ export default function RecipeDetails() {
     const [servings, setServings] = useState(recipe?.servings || 1);
     const {userId} = useAuth();
     const {deleteRecipe} = useDeleteRecipe();
+    const {comments , setComments} = useComments(recipeId);
+    const {create} = useCreateComments();
 
     function adjustIngredients(ingredient, servings, baseServings = 1) {
         if (!ingredient.amount || baseServings === 0) {
@@ -23,6 +26,17 @@ export default function RecipeDetails() {
 
     const recipeDeleteHandler = async () => {
         await deleteRecipe(recipeId)
+    }
+
+
+    const commentCreateHandler = async (comment) => {
+        console.log(comment);  
+
+        const newComment = await create(comment , recipeId);
+
+        // Check why is not comming 
+        setComments(state => [...state , newComment]);
+        
     }
 
     
@@ -65,8 +79,12 @@ export default function RecipeDetails() {
                 <p className="text-gray-700 mt-2">{recipe.instructions}</p>
             </div>
 
-        <CommentsView></CommentsView>
-        <AddComment></AddComment>
+        <CommentsView comments={comments} />
+        <AddComment
+            userId={userId}
+            recipeId={recipeId}
+            onCreate={commentCreateHandler}
+        />
            
         </div>
     );
