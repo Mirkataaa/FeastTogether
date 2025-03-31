@@ -16,7 +16,7 @@ export const useComments = (recipeId) => {
             .then((data) => setComments(data))
             .catch((error) => console.error("Error fetching comments:", error))
             .finally(() => setLoading(false));
-    }, [recipeId]);
+    }, [recipeId]); // ! fix recursion ??
 
     return { comments, loading , setComments };
 };
