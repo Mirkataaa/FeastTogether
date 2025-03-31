@@ -1,24 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import useAuth from "../hooks/useAuth"
 
 const baseUrl = 'http://localhost:3050/api/comments'
 
+const commentsReducer = (state , action) => {
+    switch(action.type) {
+        case 'ADD_COMMENT':
+            return [...state , action.payload]
+        case 'GET_ALL':
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
 export const useComments = (recipeId) => {
     const { request } = useAuth();
-    const [comments, setComments] = useState([]);
+    const [comments , dispatch] = useReducer(commentsReducer , []);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!recipeId) return;
-
         setLoading(true);
+
         request.get(`${baseUrl}/${recipeId}`)
-            .then((data) => setComments(data))
+            .then(data => dispatch({type: 'GET_ALL' , payload: data}))
             .catch((error) => console.error("Error fetching comments:", error))
             .finally(() => setLoading(false));
-    }, [recipeId]); // ! fix recursion ??
+    }, [recipeId , request]);
 
-    return { comments, loading , setComments };
+    return { 
+        comments, 
+        loading , 
+        addComment: (data) => dispatch({type: 'ADD_COMMENT' , payload: data}) 
+    };
 };
 
 export const useCreateComments = () => {
