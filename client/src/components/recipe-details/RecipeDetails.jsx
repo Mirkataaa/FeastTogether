@@ -1,20 +1,22 @@
 import { Link, useParams } from "react-router";
 import { useDeleteRecipe, useRecipe } from "../../api/recipeApi";
-import { useState } from "react";
+import { useOptimistic, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import CommentsView from "../comments-view/CommentsView";
 import AddComment from "../add-comment/AddComment";
 import { useComments, useCreateComments } from "../../api/commentApi";
 import { useAvgRating, useRating } from "../../api/ratingApi";
+import {v4 as uuid} from 'uuid'
 
 export default function RecipeDetails() {
     const { recipeId } = useParams();
     const { recipe } = useRecipe(recipeId);
     const [servings, setServings] = useState(recipe?.servings || 1);
-    const {userId} = useAuth();
+    const {userId , username} = useAuth();
     const {deleteRecipe} = useDeleteRecipe();
-    const {comments , setComments} = useComments(recipeId);
+    const {comments , addComment} = useComments(recipeId);
     const {create} = useCreateComments();
+    const [optimisticComments , setOptimisticComments] = useOptimistic(comments , (state , newComment) => [...state , newComment])
     const { avgRating } = useAvgRating(recipeId);
     const { submitRating } = useRating(recipeId);
     const [selectedRating, setSelectedRating] = useState(null);
@@ -39,10 +41,24 @@ export default function RecipeDetails() {
     const commentCreateHandler = async (comment) => {
         console.log(comment);  
 
-        const newComment = await create(comment , recipeId);
+        // ! fix username - both client and server 
+        const newOptimisticComment = {
+            _id: uuid(),
+            recipeId,
+            userId,
+            username,
+            comment,
+            createdAt: new Date,
+        };
 
-        // Check why is not comming 
-        setComments(state => [...state , newComment]);
+        console.log('nov komentar' , newOptimisticComment);
+        
+        setOptimisticComments(newOptimisticComment);
+
+        const newComment = await create(comment , recipeId);
+        console.log( 'nov-nov kom' , newComment);
+        
+        addComment({...newComment})
         
     }
 
@@ -118,7 +134,7 @@ export default function RecipeDetails() {
             </div>
         </div>
 
-        <CommentsView comments={comments} />
+        <CommentsView comments={optimisticComments} />
         <AddComment
             userId={userId}
             recipeId={recipeId}

@@ -1,9 +1,5 @@
 export default function CommentsView({ comments = [] }) {
-  console.log('comment-view:', comments);
 
-  // console.log(comments[0].user);
-  
-  
   return (
       <div className="details-comments p-6 m-5 bg-white shadow-lg rounded-lg max-w-3xl mx-auto mt-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comments:</h2>
@@ -15,7 +11,7 @@ export default function CommentsView({ comments = [] }) {
                           className="p-4 border border-gray-300 rounded-lg shadow-sm bg-white"
                       >
                           <p className="text-gray-700">
-                              <span className="font-semibold text-blue-600">{user?.username || "Anonymous"}</span>: {text}
+                              <span className="font-semibold text-blue-600">{user?.username}</span>: {text}
                           </p>
                           <p className="text-sm text-gray-500">Posted on: {new Date(createdAt).toLocaleString()}</p>
                       </li>
