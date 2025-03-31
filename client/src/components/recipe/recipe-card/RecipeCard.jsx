@@ -7,16 +7,16 @@ export default function RecipeCard ({
   category
 }) {
     return (
-      <Link to={`/recipes/${_id}`}>
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transform transition duration-300 hover:scale-105 group cursor-pointer mb-5">
-        <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+      <Link to={`/recipes/${_id}`} className="block">
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:scale-[1.03] group cursor-pointer mb-6">
+        <div className="h-52 overflow-hidden rounded-t-2xl">
+          <img src={imageUrl} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+        </div>
         <div className="p-4">
-          <h3 className="text-lg font-semibold group-hover:underline decoration-green-500 transition-all">{title}</h3>
-          <div className="mt-2 flex flex-wrap gap-2">
-          <span className="bg-green-200 text-green-700 text-xs px-3 py-1 rounded-full w-fit mt-2">{category}</span>
-          </div>
+          <h3 className="text-xl font-semibold text-gray-900 group-hover:text-teal-600 transition-all">{title}</h3>
+          <span className="bg-teal-100 text-teal-700 text-xs px-3 py-1 rounded-full mt-2 inline-block">{category}</span>
         </div>
       </div>
-      </Link>
+    </Link>
     );
   };
