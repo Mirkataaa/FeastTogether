@@ -20,7 +20,6 @@ commentController.post('/:recipeId', async (req, res) => {
     const { recipeId } = req.params;
     const { user, text } = req.body;
 
-    console.log("Request Body:", req.body);
 
     try {
         if (!user) {

@@ -6,6 +6,11 @@ const ratingSchema = new Schema({
         ref: 'User',
         required: true
     },
+    recipe: {
+        type: Types.ObjectId,
+        ref: 'Recipe',
+        required: true
+    },
     score: {
         type: Number,
         required: true,

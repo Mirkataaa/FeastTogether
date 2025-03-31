@@ -15,7 +15,6 @@ const getComments = async (recipeId) => {
         const comments = await Comment.find({ recipe: recipeId })
             .populate('user', 'username')
             .sort({ createdAt: -1 });
-        console.log(comments);
         
         return comments;
     } catch (error) {
