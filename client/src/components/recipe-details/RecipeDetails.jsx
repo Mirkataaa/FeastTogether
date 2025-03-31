@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import CommentsView from "../comments-view/CommentsView";
 import AddComment from "../add-comment/AddComment";
 import { useComments, useCreateComments } from "../../api/commentApi";
+import { useAvgRating, useRating } from "../../api/ratingApi";
 
 export default function RecipeDetails() {
     const { recipeId } = useParams();
@@ -14,6 +15,12 @@ export default function RecipeDetails() {
     const {deleteRecipe} = useDeleteRecipe();
     const {comments , setComments} = useComments(recipeId);
     const {create} = useCreateComments();
+    const { avgRating } = useAvgRating(recipeId);
+    const { submitRating } = useRating(recipeId);
+    const [selectedRating, setSelectedRating] = useState(null);
+
+    console.log( 'avarage' , avgRating);
+    
 
     function adjustIngredients(ingredient, servings, baseServings = 1) {
         if (!ingredient.amount || baseServings === 0) {
@@ -38,6 +45,12 @@ export default function RecipeDetails() {
         setComments(state => [...state , newComment]);
         
     }
+
+    const handleRating = (star) => {
+        setSelectedRating(star);
+        submitRating(star, recipeId);
+    };
+    
 
     
     return (
@@ -78,6 +91,32 @@ export default function RecipeDetails() {
                 <h2 className="text-2xl font-semibold">Instructions</h2>
                 <p className="text-gray-700 mt-2">{recipe.instructions}</p>
             </div>
+
+            <div className="mt-6">
+            <h2 className="text-2xl font-semibold">Rate This Recipe</h2>
+            <div className="flex gap-2 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                        key={star}
+                        onClick={() => handleRating(star)}
+                        className={`px-2 py-1 ${selectedRating >= star ? 'text-yellow-500' : 'text-gray-400'}`}
+                    >
+                        ★
+                    </button>
+                ))}
+            </div>
+            <div className="mt-4">
+                <h3 className="text-lg font-medium">Overall Rating</h3>
+                <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span key={star} className={`text-2xl ${avgRating >= star ? 'text-yellow-500' : 'text-gray-400'}`}>
+                            ★
+                        </span>
+                    ))}
+                </div>
+                <p className="text-gray-600">{avgRating?.toFixed(1)} / 5</p>
+            </div>
+        </div>
 
         <CommentsView comments={comments} />
         <AddComment
