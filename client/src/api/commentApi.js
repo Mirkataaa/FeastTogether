@@ -28,6 +28,9 @@ export const useComments = (recipeId) => {
             .finally(() => setLoading(false));
     }, [recipeId , request]);
 
+    console.log('znam li sega' , comments);
+    
+
     return { 
         comments, 
         loading , 
@@ -38,10 +41,14 @@ export const useComments = (recipeId) => {
 export const useCreateComments = () => {
     const { request, userId } = useAuth();
 
-    const create = (comment, recipeId) => {
-  
+    
+
+    const create = (comment, recipeId , username) => {
+        console.log( 'haide da vidim tuk'  , comment);
+        
         return request.post(`${baseUrl}/${recipeId}`, { 
             user: userId, 
+            username: username,
             text: comment 
         });
     };

@@ -51,6 +51,9 @@ export const useAvgRating = (recipeId) => {
             .finally(() => setLoading(false));
     }, [recipeId]);
 
-    return { avgRating, loading };
+    return { 
+        avgRating,
+        setAvgRating, 
+        loading };
 };
 
