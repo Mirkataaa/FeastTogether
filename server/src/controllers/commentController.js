@@ -18,8 +18,7 @@ commentController.get('/:recipeId', async (req, res) => {
 // * Add coment to a recipe
 commentController.post('/:recipeId', async (req, res) => {
     const { recipeId } = req.params;
-    const { user, text } = req.body;
-
+    const { user, text , username } = req.body;
 
     try {
         if (!user) {
@@ -27,7 +26,8 @@ commentController.post('/:recipeId', async (req, res) => {
         }
 
         const recipe = await commentService.addComment(recipeId, { 
-            user, 
+            user,
+            username, 
             text 
         });
 

@@ -1,15 +1,6 @@
 import Comment from "../models/Comment.js";
 import Recipe from "../models/Recipes.js";
 
-const getCommentsByUser  = async (userId) => {
-    try {
-        const comments = await Comment.find({user: userId}).populate('recipe' , 'title');
-        return comments;
-    } catch (error) {
-        throw new Error('Error adding comment' + error.message);       
-    }
-}
-
 const getComments = async (recipeId) => {
     try {
         const comments = await Comment.find({ recipe: recipeId })
@@ -25,7 +16,7 @@ const getComments = async (recipeId) => {
 const addComment = async (recipeId, commentData) => {
     try {
         const comment = new Comment({ 
-            ...commentData, // `{ user: userId, text: comment }`
+            ...commentData,
             recipe: recipeId 
         });
 
@@ -59,7 +50,6 @@ const deleteComment = async (recipeId , commentId) => {
 }
 
 export default {
-    getCommentsByUser,
     addComment, 
     deleteComment,
     getComments
