@@ -89,8 +89,6 @@ export const useDeleteRecipe = () => {
 
     const deleteRecipe = (recipeId) =>
         request.delete(`${baseUrl}/${recipeId}`)
-            .then(console.log(recipeId)
-            )
         
     return {
         deleteRecipe,

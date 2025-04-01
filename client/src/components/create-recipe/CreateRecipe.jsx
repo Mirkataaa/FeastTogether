@@ -21,7 +21,7 @@ export default function CreateRecipe () {
           console.log(newRecipe);
           
         } catch (error) {
-            console.log('greshka' ,error);
+            console.log(error);
         } finally {
           setPending(false);            
           navigate('/recipes/all-recipes')

@@ -9,9 +9,7 @@ export const useRating = () => {
     const [loading, setLoading] = useState(false);
     const {request , userId} = useAuth();
 
-    console.log(userId);
     
-
     const submitRating = (score , recipeId) => {
         setLoading(true);
         request.post(`${baseUrl}/${recipeId}`, {  recipeId ,userId , score })
