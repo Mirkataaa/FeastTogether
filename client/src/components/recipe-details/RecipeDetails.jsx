@@ -20,9 +20,7 @@ export default function RecipeDetails() {
     const { avgRating } = useAvgRating(recipeId);
     const { submitRating } = useRating(recipeId);
     const [selectedRating, setSelectedRating] = useState(null);
-
-    console.log( 'avarage' , avgRating);
-    
+    const [isVoted , setIsVoted] = useState(false);
 
     function adjustIngredients(ingredient, servings, baseServings = 1) {
         if (!ingredient.amount || baseServings === 0) {
@@ -39,9 +37,7 @@ export default function RecipeDetails() {
 
 
     const commentCreateHandler = async (comment) => {
-        console.log(comment);  
 
-        // ! fix username - both client and server 
         const newOptimisticComment = {
             _id: uuid(),
             recipeId,
@@ -51,23 +47,17 @@ export default function RecipeDetails() {
             createdAt: new Date,
         };
 
-        console.log('nov komentar' , newOptimisticComment);
-        
         setOptimisticComments(newOptimisticComment);
 
-        const newComment = await create(comment , recipeId);
-        console.log( 'nov-nov kom' , newComment);
-        
+        const newComment = await create(comment , recipeId , username);
         addComment({...newComment})
-        
     }
 
     const handleRating = (star) => {
         setSelectedRating(star);
         submitRating(star, recipeId);
-    };
-    
-
+        setIsVoted(true)
+    };    
     
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
@@ -108,32 +98,33 @@ export default function RecipeDetails() {
                 <p className="text-gray-700 mt-2">{recipe.instructions}</p>
             </div>
 
-            <div className="mt-6">
-            <h2 className="text-2xl font-semibold">Rate This Recipe</h2>
-            <div className="flex gap-2 mt-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                        key={star}
-                        onClick={() => handleRating(star)}
-                        className={`px-2 py-1 ${selectedRating >= star ? 'text-yellow-500' : 'text-gray-400'}`}
-                    >
-                        ★
-                    </button>
-                ))}
-            </div>
-            <div className="mt-4">
-                <h3 className="text-lg font-medium">Overall Rating</h3>
-                <div className="flex gap-2">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                        <span key={star} className={`text-2xl ${avgRating >= star ? 'text-yellow-500' : 'text-gray-400'}`}>
-                            ★
-                        </span>
-                    ))}
+        <div className="mt-6">
+                <h2 className="text-2xl font-semibold">Rate This Recipe</h2>
+                {!isVoted && (
+                    <div className="flex gap-2 mt-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                                key={star}
+                                onClick={() => handleRating(star)}
+                                className={`px-2 py-1 ${selectedRating >= star ? 'text-yellow-500' : 'text-gray-400'}`}
+                            >
+                                ★
+                            </button>
+                        ))}
+                    </div>
+                )}
+                <div className="mt-4">
+                    <h3 className="text-lg font-medium">Overall Rating</h3>
+                    <div className="flex gap-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <span key={star} className={`text-2xl ${avgRating >= star ? 'text-yellow-500' : 'text-gray-400'}`}>
+                                ★
+                            </span>
+                        ))}
+                    </div>
+                    <p className="text-gray-600">{avgRating?.toFixed(1)} / 5</p>
                 </div>
-                <p className="text-gray-600">{avgRating?.toFixed(1)} / 5</p>
             </div>
-        </div>
-
         <CommentsView comments={optimisticComments} />
         <AddComment
             userId={userId}
