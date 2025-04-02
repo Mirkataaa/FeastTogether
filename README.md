@@ -8,8 +8,6 @@ This app allows users to browse recipes, create and submit new recipes, vote on 
 
 Guests can browse the recipes and register an account. 
 
-Users can also upload profile pictures and adjust servings for recipe ingredients.
-
 ## Features
 
 - **Guest Users:**
@@ -51,4 +49,20 @@ npm run dev
 ---
 
 # Screenshots
+
+## HOME PAGE
+
+![alt text](1-user-view.png)
+
+## DETAILS
+
+![alt text](2-details.png)
+
+## BROWSE RECIPES
+
+![alt text](3-browse.png)
+
+## REGISTER
+
+![alt text](4-register.png)
 
