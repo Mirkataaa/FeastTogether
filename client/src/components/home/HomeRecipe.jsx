@@ -10,13 +10,13 @@ export default function HomeRecipe () {
       <section className="relative bg-gradient-to-r from-blue-500 to-teal-400 py-20">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="max-w-screen-xl mx-auto text-center text-white relative z-10 px-6">
-          <h1 className="text-5xl font-bold leading-tight mb-4">Lorem ipsum</h1>
+          <h1 className="text-5xl font-bold leading-tight mb-4">Welcome to Feast Together</h1>
           <p className="text-lg mb-8">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, facilis!
+          Discover new recipes, share your culinary creations, and get inspired! Whether you're a novice in the kitchen or a seasoned chef, there's something here for everyone.
           </p>
-          <button className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full text-lg">
-            LogIn
-          </button>
+          <Link to="/register" className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full text-lg">
+            SignUp
+          </Link>
         </div>
       </section>
 

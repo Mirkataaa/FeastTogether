@@ -8,7 +8,6 @@ export default function Header() {
   return (
     <div className="bg-tea-green sticky top-0 z-50 shadow-md">
     <div className="w-full mx-auto flex justify-between items-center p-4">
-      {/* Logo */}
       <div className="flex items-center">
         <Link to="/">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
@@ -17,7 +16,6 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* Navigation Links */}
       <nav className="hidden md:flex gap-6 text-lg">
         <Link to="/recipes/all-recipes" className="hover:text-glaucous transition">Browse</Link>
         <Link to="/recipes/category/Just Tasty" className="hover:text-glaucous transition">Just Tasty</Link>
@@ -29,7 +27,6 @@ export default function Header() {
         )}
       </nav>
 
-      {/* Auth Buttons */}
       <div>
         {isAuthenticated ? (
           <div className="flex items-center gap-4">
@@ -39,8 +36,8 @@ export default function Header() {
             </Link>
           </div>
         ) : (
-          <Link to="/register" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded-full">
-            Sign Up
+          <Link to="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded-full">
+            LogIn
           </Link>
         )}
       </div>

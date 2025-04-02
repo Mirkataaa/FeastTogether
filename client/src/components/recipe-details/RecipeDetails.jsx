@@ -58,8 +58,6 @@ export default function RecipeDetails() {
         submitRating(star, recipeId);
         setIsVoted(true)
     };
-
-    console.log(userId);
     
     useEffect(() => {
         if (recipe?.ratings) {
@@ -107,9 +105,9 @@ export default function RecipeDetails() {
             </div>
 
         <div className="mt-6">
-                <h2 className="text-2xl font-semibold">Rate This Recipe</h2>
                 {(!isVoted && userId) && (
                     <div className="flex gap-2 mt-2">
+                        <h2 className="text-2xl font-semibold">Rate This Recipe</h2>
                         {[1, 2, 3, 4, 5].map((star) => (
                             <button
                                 key={star}
@@ -134,12 +132,13 @@ export default function RecipeDetails() {
                 </div>
             </div>
         <CommentsView comments={optimisticComments} />
-        <AddComment
-            userId={userId}
-            recipeId={recipeId}
-            onCreate={commentCreateHandler}
-        />
-           
+        {userId && (
+                <AddComment
+                userId={userId}
+                recipeId={recipeId}
+                onCreate={commentCreateHandler}
+            />
+        )}     
         </div>
     );
 }
