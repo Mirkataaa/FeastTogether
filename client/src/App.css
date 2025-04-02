@@ -1,15 +1,31 @@
 html, body {
-    height: 100%;
-    margin: 0;
-    font-family: "Patrick Hand", cursive; /* Handwritten font */
-  }
-  
-  .box {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Full viewport height */
-  }
-  
-  .main-content {
-    flex-grow: 1; /* Makes it take up all available space between header & footer */
-  }
+  height: 100%;
+  margin: 0;
+  font-family: "Patrick Hand", cursive;
+}
+
+.box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://news.mit.edu/sites/default/files/images/202312/MIT_Food-Diabetes-01.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+  z-index: -1; 
+}
+
+.main-content {
+  flex-grow: 1; 
+  z-index: 1;
+}
