@@ -59,6 +59,8 @@ export default function RecipeDetails() {
         setIsVoted(true)
     };
 
+    console.log(userId);
+    
     useEffect(() => {
         if (recipe?.ratings) {
             setIsVoted(recipe.ratings.some((r) => r.user === userId));
@@ -106,7 +108,7 @@ export default function RecipeDetails() {
 
         <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Rate This Recipe</h2>
-                {!isVoted && (
+                {(!isVoted && userId) && (
                     <div className="flex gap-2 mt-2">
                         {[1, 2, 3, 4, 5].map((star) => (
                             <button
