@@ -16,6 +16,7 @@ import HomeRecipe from './components/home/HomeRecipe'
 import AuthGuard from './components/guards/AuthGuard'
 import GuestGuard from './components/guards/GuestGuard'
 import {ToastContainer} from 'react-toastify'
+import About from './components/about/About'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='/recipes/all-recipes' element={<Recipe/>}/>
           <Route path='/recipes/:recipeId' element= {<RecipeDetails/>} />
           <Route path='/recipes/category/:category' element={<BrowseCategories/>} />
+          <Route path='/about' element={<About/>} />
           <Route element={<AuthGuard />}>
               <Route path='/recipes/create' element={<CreateRecipe/>}/>
               <Route path='/recipes/edit/:recipeId' element={<EditRecipe/>} />

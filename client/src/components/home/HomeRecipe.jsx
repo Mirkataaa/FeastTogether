@@ -1,9 +1,11 @@
 import { Link } from "react-router";
 import { useLatestRecipe } from "../../api/recipeApi";
+import useAuth from "../../hooks/useAuth";
 
 export default function HomeRecipe () {
 
   const {recipes} = useLatestRecipe();
+  const {userId} = useAuth();
 
     return (
       <div className="bg-white">
@@ -14,9 +16,11 @@ export default function HomeRecipe () {
           <p className="text-lg mb-8">
           Discover new recipes, share your culinary creations, and get inspired! Whether you're a novice in the kitchen or a seasoned chef, there's something here for everyone.
           </p>
-          <Link to="/register" className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full text-lg">
-            SignUp
-          </Link>
+          {!userId && (
+              <Link to="/register" className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full text-lg">
+              SignUp
+            </Link>
+          )}
         </div>
       </section>
 
