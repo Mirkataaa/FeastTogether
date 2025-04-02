@@ -2,6 +2,8 @@ import { useActionState} from "react";
 import { Link, useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext";
 import { useLogin } from "../../api/authApi";
+import useValidate from "../../hooks/useValidate";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -9,11 +11,23 @@ export default function Login() {
   const {login} = useLogin();
 
   const loginHandler = async (_ , formData) => {
+
     const values = Object.fromEntries(formData);
-    const authData = await login(values.email , values.password);
-    userLoginHandler(authData.user);
-    navigate('/recipes/all-recipes')
+
+    try {
+      const authData = await login(values.email , values.password);
+      userLoginHandler(authData.user);
+      navigate('/recipes/all-recipes')
+    } catch (error) { 
+      error.message.forEach(e => toast.error(e))
+    }
+
   };
+
+  const {errors , handleBlur} = useValidate({
+    email: '',
+    password: '',
+  });
 
   const [_  , loginAction , isPending] = useActionState(
     loginHandler, 
@@ -42,9 +56,11 @@ export default function Login() {
                 type="email"
                 name="email"
                 id="email"
+                onBlur={handleBlur}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                 placeholder="Email"
                 required />
+                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
             <div>
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900"></label>
@@ -52,9 +68,11 @@ export default function Login() {
               type="password" 
               name="password" 
               id="password" 
+              onBlur={handleBlur}
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" 
               placeholder="••••••••" 
               required />
+              {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             </div>
             <input 
             type="submit" 

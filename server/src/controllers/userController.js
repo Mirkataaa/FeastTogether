@@ -21,7 +21,7 @@ userController.post("/register", isGuest, async (req, res) => {
 
   } catch (err) {
       const errors = getErrorMsg(err);
-      res.status(400).json({ message: "Registration failed", errors });
+      res.status(400).json({ message: errors });
   }
 });
 
@@ -37,7 +37,7 @@ userController.post("/login", isGuest, async (req, res) => {
       });
     } catch (err) {
       const errors = getErrorMsg(err);
-      res.status(401).json({ message: "Login failed", errors });
+      res.status(401).json({ message: errors});
     }
   });
 

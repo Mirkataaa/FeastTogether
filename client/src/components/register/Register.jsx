@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext";
 import { useRegister } from "../../api/authApi";
+import { toast } from "react-toastify";
+import useValidate from "../../hooks/useValidate";
 
 export default function Register() {
 
@@ -10,20 +12,24 @@ export default function Register() {
 
     const registerHandler = async (formData) => {
         const {username , email , password} = Object.fromEntries(formData);
-
         const rePass = formData.get('rePass');
 
-        if(password !== rePass) {
-            // TODO: Add error handlign
-            console.log("Password missmath");
-            return;
+        try {
+            const authData = await register(username , email , password , rePass);
+            userLoginHandler(authData.user);
+            navigate('/recipes/all-recipes');
+        } catch (error) {
+            error.message.forEach(e => toast.error(e))
         }
 
-        const authData = await register(username , email , password , rePass);
-        userLoginHandler(authData.user);
-        navigate('/recipes/all-recipes');
-
     }
+
+     const {errors , handleBlur} = useValidate({
+        username: '',
+        email: '',
+        password: '',
+        rePass: '',
+      });
 
     return (
         <section className="flex flex-col lg:flex-row items-center justify-center w-full min-h-screen bg-gray-100">
@@ -46,20 +52,26 @@ export default function Register() {
                             <input 
                             type="text" 
                             name="username" 
-                            id="username" 
+                            id="username"
+                            onBlur={handleBlur}
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                             placeholder="Username" 
-                            required />
+                            required 
+                            />
+                            {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
                         </div>
                         <div>
                             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900"></label>
                             <input 
                             type="email" 
                             name="email" 
-                            id="email" 
+                            id="email"
+                            onBlur={handleBlur} 
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" 
                             placeholder="Email" 
-                            required />
+                            required 
+                            />
+                            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                         </div>
                         <div>
                             <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900"></label>
@@ -67,9 +79,12 @@ export default function Register() {
                             type="password" 
                             name="password" 
                             id="password" 
+                            onBlur={handleBlur}
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" 
                             placeholder="Password" 
-                            required />
+                            required 
+                            />
+                            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                         </div>
                         <div>
                             <label htmlFor="rePass" className="block mb-2 text-sm font-medium text-gray-900"></label>
@@ -77,9 +92,12 @@ export default function Register() {
                             type="password" 
                             name="rePass" 
                             id="rePass" 
+                            onBlur={handleBlur}
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" 
                             placeholder="Repeat password" 
-                            required />
+                            required 
+                            />
+                            {errors.rePass && <p className="text-red-500 text-sm">{errors.rePass}</p>}
                         </div>
                         <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                             Create an account

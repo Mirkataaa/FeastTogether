@@ -15,6 +15,7 @@ import EditRecipe from './components/edit-recipe/EditRecipe'
 import HomeRecipe from './components/home/HomeRecipe'
 import AuthGuard from './components/guards/AuthGuard'
 import GuestGuard from './components/guards/GuestGuard'
+import {ToastContainer} from 'react-toastify'
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           </Route>
         </Routes>
       </main>
+      <ToastContainer />
       <Footer/>
     </div>
     </UserProvider>
