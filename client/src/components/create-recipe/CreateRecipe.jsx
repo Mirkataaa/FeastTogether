@@ -4,6 +4,7 @@ import { useState } from "react";
 import useRecipeForm from "../../hooks/useRecipeForm";
 import { useUserContext } from "../../contexts/UserContext";
 import useValidate from "../../hooks/useValidate";
+import { toast } from "react-toastify";
 
 
 export default function CreateRecipe () {
@@ -17,14 +18,13 @@ export default function CreateRecipe () {
 
     setPending(true)
         try {
-          
            await createRecipe(values);
-          
+           toast.success('Recipe created successfully!');
+           navigate('/recipes/all-recipes')
         } catch (error) {
-            console.log(error);
+            toast.error(error.message)
         } finally {
           setPending(false);            
-          navigate('/recipes/all-recipes')
         }
 
   }
