@@ -3,6 +3,7 @@ import { useCreateRecipe } from "../../api/recipeApi";
 import { useState } from "react";
 import useRecipeForm from "../../hooks/useRecipeForm";
 import { useUserContext } from "../../contexts/UserContext";
+import useValidate from "../../hooks/useValidate";
 
 
 export default function CreateRecipe () {
@@ -16,9 +17,8 @@ export default function CreateRecipe () {
 
     setPending(true)
         try {
-          // TODO: Add error handling to the form
-          const newRecipe = await createRecipe(values);
-          console.log(newRecipe);
+          
+           await createRecipe(values);
           
         } catch (error) {
             console.log(error);
@@ -28,6 +28,17 @@ export default function CreateRecipe () {
         }
 
   }
+
+
+  const {errors , handleBlur} = useValidate({
+    title: "",
+    description: "",
+    ingredients: [{ name: "", amount: "", unit: "" }],
+    instructions: "",
+    category: "",
+    cookingTime: "",
+    imageUrl: "",
+  })
 
   const {
     values, 
@@ -70,10 +81,12 @@ export default function CreateRecipe () {
                 name="title"
                 value={values.title}
                 onChange={changeHandler}
+                onBlur={handleBlur}
                 className="w-full p-2 border rounded-lg"
                 placeholder="Enter recipe title"
                 required
               />
+            {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">Description</label>
@@ -81,10 +94,12 @@ export default function CreateRecipe () {
                 name="description"
                 value={values.description}
                 onChange={changeHandler}
+                onBlur={handleBlur}
                 className="w-full p-2 border rounded-lg"
                 placeholder="Describe your recipe"
                 required
               ></textarea>
+              {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">Ingredients</label>
@@ -95,28 +110,37 @@ export default function CreateRecipe () {
                     name="name"
                     value={ingredient.name}
                     onChange={(e) => arrayChangeHandler("ingredients" ,index, e)}
+                    onBlur={(e) => handleBlur(e, index)}
                     className="w-1/3 p-2 border rounded-lg"
                     placeholder="Ingredient Name"
                     required
                   />
+                  {errors.ingredients?.[index]?.name && (
+                  <p className="text-red-500 text-sm">{errors.ingredients[index].name}</p>)}
                   <input
                     type="number"
                     name="amount"
                     value={ingredient.amount}
                     onChange={(e) => arrayChangeHandler( "ingredients" , index, e)}
+                    onBlur={(e) => handleBlur(e, index)}
                     className="w-1/3 p-2 border rounded-lg"
                     placeholder="Amount"
                     required
                   />
+                   {errors.ingredients?.[index]?.amount && (
+                  <p className="text-red-500 text-sm">{errors.ingredients[index].amount}</p>)}
                   <input
                     type="text"
                     name="unit"
                     value={ingredient.unit}
                     onChange={(e) => arrayChangeHandler("ingredients" ,index, e)}
+                    onBlur={(e) => handleBlur(e, index)}
                     className="w-1/3 p-2 border rounded-lg"
                     placeholder="Unit (e.g., ml, tsp)"
                     required
                   />
+                  {errors.ingredients?.[index]?.unit && (
+                  <p className="text-red-500 text-sm">{errors.ingredients[index].unit}</p>)}
                   {index > 0 && (
                     <button
                       type="button"
@@ -138,10 +162,12 @@ export default function CreateRecipe () {
                 name="instructions"
                 value={values.instructions}
                 onChange={changeHandler}
+                onBlur={handleBlur}
                 className="w-full p-2 border rounded-lg"
                 placeholder="Write cooking instructions"
                 required
               ></textarea>
+              {errors.instructions && <p className="text-red-500 text-sm">{errors.instructions}</p>}
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">Category</label>
@@ -149,6 +175,7 @@ export default function CreateRecipe () {
                 name="category"
                 value={values.category}
                 onChange={changeHandler}
+                onBlur={handleBlur}
                 className="w-full p-2 border rounded-lg"
                 required
               >
@@ -157,6 +184,7 @@ export default function CreateRecipe () {
                 <option value="Desserts">Desserts</option>
                 <option value="Vegan Meals">Vegan Meals</option>
               </select>
+              {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">Cooking Time (minutes)</label>
@@ -165,10 +193,12 @@ export default function CreateRecipe () {
                 name="cookingTime"
                 value={values.cookingTime}
                 onChange={changeHandler}
+                onBlur={handleBlur}
                 className="w-full p-2 border rounded-lg"
                 placeholder="Enter time in minutes"
                 required
               />
+              {errors.cookingTime && <p className="text-red-500 text-sm">{errors.cookingTime}</p>}
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">Image link</label>
@@ -177,13 +207,16 @@ export default function CreateRecipe () {
                 name="imageUrl"
                 value={values.imageUrl}
                 onChange={changeHandler}
+                onBlur={handleBlur}
                 className="w-full p-2 border rounded-lg"
                 placeholder="Image url"
                 required
               />
+              {errors.imageUrl && <p className="text-red-500 text-sm">{errors.imageUrl}</p>}
             </div>
             <input
               type="submit"
+              disabled={pending}
               value="Create Recipe"
               className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5"
             >
