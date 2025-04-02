@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router";
 import { useDeleteRecipe, useRecipe } from "../../api/recipeApi";
-import { useOptimistic, useState } from "react";
+import { useEffect, useOptimistic, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import CommentsView from "../comments-view/CommentsView";
 import AddComment from "../add-comment/AddComment";
@@ -57,8 +57,14 @@ export default function RecipeDetails() {
         setSelectedRating(star);
         submitRating(star, recipeId);
         setIsVoted(true)
-    };    
-    
+    };
+
+    useEffect(() => {
+        if (recipe?.ratings) {
+            setIsVoted(recipe.ratings.some((r) => r.user === userId));
+        }
+    }, [recipe, userId]); 
+
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-3xl font-bold text-center mb-4">{recipe.title}</h1>
